@@ -19,10 +19,15 @@ jobs:
           cache: 'npm'
 
       - name: Install & Build
-        # Lưu ý: Nếu code nằm trong thư mục con, hãy dùng 'working-directory'
         run: |
+          # 1. Cài đặt toàn bộ dependencies (bao gồm cả devDependencies để có Vite)
           npm install
-          npm run build 
+          
+          # 2. Cấp quyền thực thi cho các file binary trong node_modules (Fix lỗi Permission denied)
+          chmod +x ./node_modules/.bin/vite
+          
+          # 3. Sử dụng npx để chạy build cho an toàn
+          npx vite build
 
       - name: Deploy to server (SCP)
         uses: appleboy/scp-action@v0.1.7
