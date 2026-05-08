@@ -29,7 +29,11 @@ function createClient(baseUrl, subject, apiKey) {
   }
 
   return {
-    ping: () => fetch(url("/ping")).then((r) => r.json()),
+    ping: async () => {
+      const r = await fetch(url("/ping"));
+      if (!r.ok && r.status !== 304) throw new Error(`HTTP ${r.status}`);
+      try { return await r.json(); } catch { return { status: "ok" }; }
+    },
     uploadVideo: (file) => {
       const fd = new FormData();
       fd.append("file", file);
