@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dist/*" # React thường build ra folder dist
-          target: "/home/ubuntu/wham-ui"
+          target: "/var/www/wham-ui"
           strip_components: 1
 
       - name: Reload Nginx (SSH)
